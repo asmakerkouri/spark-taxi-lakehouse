@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      TZ: UTC
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements-dev.txt
+      - run: ruff check .
+      - name: Unit tests (local Spark)
+        run: pytest -q
+      - name: End-to-end run on 500k rows
+        run: |
+          python -m pipeline.run --rows 500000 --lake lake
+          echo '### Pipeline run (500k rows)' >> "$GITHUB_STEP_SUMMARY"
+          python -c "import json;r=json.load(open('lake/run_report.json'));print('- data quality:',r['data_quality']);print('- timings:',r['timings']);print('- ML:',r['ml'])" >> "$GITHUB_STEP_SUMMARY"
+
+  airflow-dag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: DAG import test
+        run: |
+          pip install "apache-airflow==2.10.4" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.10.4/constraints-3.11.txt"
+          python -c "from airflow.models import DagBag; b=DagBag('dags', include_examples=False); assert not b.import_errors, b.import_errors; print(list(b.dags))"

@@ -1,0 +1,28 @@
+{
+  "rows_requested": 5000000,
+  "data_quality": {
+    "impossible_distance": 49191,
+    "negative_fare": 25207,
+    "missing_passengers": 74631,
+    "impossible_duration": 2,
+    "raw": 5024897,
+    "clean": 4851706,
+    "duplicates": 24160
+  },
+  "timings": {
+    "bronze_s": 94.5,
+    "silver_s": 84.1,
+    "gold_s": 5.2,
+    "ml_s": 99.1
+  },
+  "spark": "3.5.3",
+  "cores": 2,
+  "ml": {
+    "rmse_min": 3.51,
+    "mae_min": 2.06,
+    "r2": 0.836,
+    "baseline_mae_min": 5.83,
+    "n_train": 777363,
+    "n_test": 194342
+  }
+}

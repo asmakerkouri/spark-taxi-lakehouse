@@ -1,0 +1,36 @@
+{
+  "bronze_json_full_scan_s": 6.45,
+  "silver_parquet_pruned_s": 1.12,
+  "top_zone_per_borough": [
+    {
+      "borough": "Bronx",
+      "rank": 1,
+      "zone_name": "Zone 26",
+      "trips": 65590
+    },
+    {
+      "borough": "Brooklyn",
+      "rank": 1,
+      "zone_name": "Zone 28",
+      "trips": 63585
+    },
+    {
+      "borough": "Manhattan",
+      "rank": 1,
+      "zone_name": "Zone 01",
+      "trips": 498986
+    },
+    {
+      "borough": "Queens",
+      "rank": 1,
+      "zone_name": "Zone 25",
+      "trips": 67074
+    },
+    {
+      "borough": "Staten Island",
+      "rank": 1,
+      "zone_name": "Zone 27",
+      "trips": 64314
+    }
+  ]
+}
